@@ -15,7 +15,7 @@
 // TODO: get messages from config variables
 module.exports = async function (req, res, proceed) {
   // Uses the hook passport instance to try authentication
-  sails.config.apiUtilsHook.passport.instance.authenticate('jwt', (error, user, info) => {
+  sails.hooks.apiUtils.passport.authenticate('jwt', (error, user, info) => {
     if (error) {
       return res.serverError(error)
     } else if (info) { // If info variable is not undefined or null, there is an error with some extra info

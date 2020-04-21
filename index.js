@@ -77,6 +77,31 @@ module.exports = function apiUtils(sails) {
         }
       }
     },
+    //   ██████╗ ██████╗ ███╗   ██╗███████╗██╗ ██████╗ ██╗   ██╗██████╗ ███████╗    
+    //  ██╔════╝██╔═══██╗████╗  ██║██╔════╝██║██╔════╝ ██║   ██║██╔══██╗██╔════╝    
+    //  ██║     ██║   ██║██╔██╗ ██║█████╗  ██║██║  ███╗██║   ██║██████╔╝█████╗      
+    //  ██║     ██║   ██║██║╚██╗██║██╔══╝  ██║██║   ██║██║   ██║██╔══██╗██╔══╝      
+    //  ╚██████╗╚██████╔╝██║ ╚████║██║     ██║╚██████╔╝╚██████╔╝██║  ██║███████╗    
+    //   ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝    
+    //                                                                              
+    //  ███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗          
+    //  ██╔════╝██║   ██║████╗  ██║██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║          
+    //  █████╗  ██║   ██║██╔██╗ ██║██║        ██║   ██║██║   ██║██╔██╗ ██║          
+    //  ██╔══╝  ██║   ██║██║╚██╗██║██║        ██║   ██║██║   ██║██║╚██╗██║          
+    //  ██║     ╚██████╔╝██║ ╚████║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║          
+    //  ╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝          
+    //                                                                              
+    configure: function () {
+      sails.log.silly('BASE API HOOK: Initializing custom policies')
+      //  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐  ┌─┐┌─┐┬  ┬┌─┐┬┌─┐┌─┐
+      //  │  │ │└─┐ │ │ ││││  ├─┘│ ││  ││  │├┤ └─┐
+      //  └─┘└─┘└─┘ ┴ └─┘┴ ┴  ┴  └─┘┴─┘┴└─┘┴└─┘└─┘
+      // Source: https://github.com/balderdashy/sails/blob/c7900af9864a10bde3fdc83097d99b82cddc713a/test/integration/fixtures/hooks/installable/add-policy/index.js#L48
+      const policiesNames = Object.keys(policies)
+      for (const policyName of policiesNames) {
+        sails.hooks.policies.middleware[policyName.toLowerCase()] = policies[policyName];
+      }
+    },
     //  ██╗  ██╗ ██████╗  ██████╗ ██╗  ██╗                                                    
     //  ██║  ██║██╔═══██╗██╔═══██╗██║ ██╔╝                                                    
     //  ███████║██║   ██║██║   ██║█████╔╝                                                     
@@ -93,44 +118,39 @@ module.exports = function apiUtils(sails) {
     //          
     // https://sailsjs.com/documentation/concepts/extending-sails/hooks/hook-specification/initialize                                                                              
     initialize: (cb) => {
-      //  ┌─┐┌┐┌┌─┐┌┬┐┬ ┬┌─┐┬─┐  ┬ ┬┌─┐┌─┐┬┌─  ┌┬┐┌─┐┌─┐┌─┐┌┐┌┌┬┐┌─┐┌┐┌┌─┐┬┌─┐┌─┐
-      //  ├─┤││││ │ │ ├─┤├┤ ├┬┘  ├─┤│ ││ │├┴┐   ││├┤ ├─┘├┤ │││ ││├┤ ││││  │├┤ └─┐
-      //  ┴ ┴┘└┘└─┘ ┴ ┴ ┴└─┘┴└─  ┴ ┴└─┘└─┘┴ ┴  ─┴┘└─┘┴  └─┘┘└┘─┴┘└─┘┘└┘└─┘┴└─┘└─┘
-      // INFO: This hook relies on blueprints, orm and organics hooks
-      if (!sails.config.hooks.blueprints) {
-        return cb('Cannot load api utils hook without `blueprints` hook enabled!');
-      }
-      if (!sails.config.hooks.orm) {
-        return cb('Cannot load api utils hook without `orm` hook enabled!');
-      }
-      // INFO: Just for the checkPassword function used by login in passport
-      if (!sails.config.hooks.organics) {
-        return cb('Cannot load api utils hook without `organics` hook enabled!');
-      }
 
-      sails.log.silly('BASE API HOOK: Initializing passport jwt strategy')
+      var eventsToWaitFor = ['hook:orm:loaded', 'hook:organics:loaded', 'hook:blueprints:loaded'];
+      sails.after(eventsToWaitFor, function () {
+        //  ┌─┐┌┐┌┌─┐┌┬┐┬ ┬┌─┐┬─┐  ┬ ┬┌─┐┌─┐┬┌─  ┌┬┐┌─┐┌─┐┌─┐┌┐┌┌┬┐┌─┐┌┐┌┌─┐┬┌─┐┌─┐
+        //  ├─┤││││ │ │ ├─┤├┤ ├┬┘  ├─┤│ ││ │├┴┐   ││├┤ ├─┘├┤ │││ ││├┤ ││││  │├┤ └─┐
+        //  ┴ ┴┘└┘└─┘ ┴ ┴ ┴└─┘┴└─  ┴ ┴└─┘└─┘┴ ┴  ─┴┘└─┘┴  └─┘┘└┘─┴┘└─┘┘└┘└─┘┴└─┘└─┘
+        // INFO: This hook relies on blueprints, orm and organics hooks
+        if (!sails.config.hooks.blueprints) {
+          return cb('Cannot load api utils hook without `blueprints` hook enabled!');
+        }
+        if (!sails.config.hooks.orm) {
+          return cb('Cannot load api utils hook without `orm` hook enabled!');
+        }
+        // INFO: Just for the checkPassword function used by login in passport
+        if (!sails.config.hooks.organics) {
+          return cb('Cannot load api utils hook without `organics` hook enabled!');
+        }
+        sails.log.silly('BASE API HOOK: Initializing passport jwt strategy')
 
-      //   ┬┬ ┬┌┬┐  ┌─┐┌┬┐┬─┐┌─┐┌┬┐┌─┐┌─┐┬ ┬  
-      //   ││││ │   └─┐ │ ├┬┘├─┤ │ ├┤ │ ┬└┬┘  
-      //  └┘└┴┘ ┴   └─┘ ┴ ┴└─┴ ┴ ┴ └─┘└─┘ ┴   
-      //  ┌─┐┌─┐┌┐┌┌─┐┬┌─┐┬ ┬┬─┐┌─┐┌┬┐┬┌─┐┌┐┌ 
-      //  │  │ ││││├┤ ││ ┬│ │├┬┘├─┤ │ ││ ││││ 
-      //  └─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘ 
-      // MORE INFO: Reed last few lines inside passport/passport.js
-      passport.configJwtStrategy(sails, passport)
+        //   ┬┬ ┬┌┬┐  ┌─┐┌┬┐┬─┐┌─┐┌┬┐┌─┐┌─┐┬ ┬  
+        //   ││││ │   └─┐ │ ├┬┘├─┤ │ ├┤ │ ┬└┬┘  
+        //  └┘└┴┘ ┴   └─┘ ┴ ┴└─┴ ┴ ┴ └─┘└─┘ ┴   
+        //  ┌─┐┌─┐┌┐┌┌─┐┬┌─┐┬ ┬┬─┐┌─┐┌┬┐┬┌─┐┌┐┌ 
+        //  │  │ ││││├┤ ││ ┬│ │├┬┘├─┤ │ ││ ││││ 
+        //  └─┘└─┘┘└┘└  ┴└─┘└─┘┴└─┴ ┴ ┴ ┴└─┘┘└┘ 
+        // MORE INFO: Reed last few lines inside passport/passport.js
+        passport.configJwtStrategy(sails, passport)
 
-      sails.log.silly('BASE API HOOK: Initializing custom policies')
+        // Finish initializing custom hook
+        // Then call cb()
+        return cb();
 
-      //  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐  ┌─┐┌─┐┬  ┬┌─┐┬┌─┐┌─┐
-      //  │  │ │└─┐ │ │ ││││  ├─┘│ ││  ││  │├┤ └─┐
-      //  └─┘└─┘└─┘ ┴ └─┘┴ ┴  ┴  └─┘┴─┘┴└─┘┴└─┘└─┘
-      // Source: https://github.com/balderdashy/sails/blob/c7900af9864a10bde3fdc83097d99b82cddc713a/test/integration/fixtures/hooks/installable/add-policy/index.js#L48
-      const policiesNames = Object.keys(policies)
-      for (const policyName of policiesNames) {
-        sails.hooks.policies.middleware[policyName] = policies[policyName];
-      }
-
-      return cb()
+      });
     },
     //  ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┬─┐┌┬┐  ┬┌┐┌┌─┐┌┬┐┌─┐┌┐┌┌─┐┌─┐
     //  ├─┘├─┤└─┐└─┐├─┘│ │├┬┘ │   ││││└─┐ │ ├─┤││││  ├┤ 
