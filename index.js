@@ -16,7 +16,7 @@ const policies = require('./policies/index.js')
  */
 const responses = require('./responses/index.js')
 
-module.exports = function apiUtilsHook(sails) {
+module.exports = function apiUtils(sails) {
   return {
     //  ██╗  ██╗ ██████╗  ██████╗ ██╗  ██╗    ██████╗ ███████╗███████╗ █████╗ ██╗   ██╗██╗  ████████╗    
     //  ██║  ██║██╔═══██╗██╔═══██╗██║ ██╔╝    ██╔══██╗██╔════╝██╔════╝██╔══██╗██║   ██║██║  ╚══██╔══╝    
@@ -53,7 +53,7 @@ module.exports = function apiUtilsHook(sails) {
         //  ┌─┐┌─┐┌┐┌┌─┐┬┌─┐ ┌─┐┌─┐┬┬ ┬┌┬┐┬┬  ┌─┐┬ ┬┌─┐┌─┐┬┌─                  
         //  │  │ ││││├┤ ││ ┬ ├─┤├─┘││ │ │ ││  └─┐├─┤│ ││ │├┴┐                  
         //  └─┘└─┘┘└┘└  ┴└─┘o┴ ┴┴  ┴└─┘ ┴ ┴┴─┘└─┘┴ ┴└─┘└─┘┴ ┴                  
-        apiUtilsHook: {
+        apiUtils: {
           blueprints: {
             // UPDATE: This variable is related to DEFAULT_LIMIT of the blueprints options
             // https://github.com/balderdashy/sails/blob/master/lib/hooks/blueprints/parse-blueprint-options.js
@@ -135,12 +135,12 @@ module.exports = function apiUtilsHook(sails) {
     //  ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐┬─┐┌┬┐  ┬┌┐┌┌─┐┌┬┐┌─┐┌┐┌┌─┐┌─┐
     //  ├─┘├─┤└─┐└─┐├─┘│ │├┬┘ │   ││││└─┐ │ ├─┤││││  ├┤ 
     //  ┴  ┴ ┴└─┘└─┘┴  └─┘┴└─ ┴   ┴┘└┘└─┘ ┴ ┴ ┴┘└┘└─┘└─┘
-    // INFO: This will be available in sails.hook.apiUtilsHook.passport
+    // INFO: This will be available in sails.hook.apiUtils.passport
     passport,
     //  ┌─┐┬ ┬┌─┐┌┬┐┌─┐┌┬┐  ┌┐ ┬  ┬ ┬┌─┐┌─┐┬─┐┬┌┐┌┌┬┐  ┌┬┐┌─┐┌┬┐┬ ┬┌─┐┌┬┐┌─┐
     //  │  │ │└─┐ │ │ ││││  ├┴┐│  │ │├┤ ├─┘├┬┘││││ │   │││├┤  │ ├─┤│ │ ││└─┐
     //  └─┘└─┘└─┘ ┴ └─┘┴ ┴  └─┘┴─┘└─┘└─┘┴  ┴└─┴┘└┘ ┴   ┴ ┴└─┘ ┴ ┴ ┴└─┘─┴┘└─┘
-    // INFO: This will be available in sails.hook.apiUtilsHook.customBlueprint
+    // INFO: This will be available in sails.hook.apiUtils.customBlueprint
     customBlueprint: {
       find: methodFind
     },

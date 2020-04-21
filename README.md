@@ -234,9 +234,9 @@ JWT authentication ready with:
 To use passport you need to:
 
 ### Config hook variables
-1.  Create a file `your-project/config/apiUtilsHook.js` with
+1.  Create a file `your-project/config/apiUtils.js` with
 ```javascript
-module.exports.apiUtilsHook = {
+module.exports.apiUtils = {
     passport: {
             userModelName: 'user', // Your User model name, please use 'lower case' 
             jwt: {
@@ -258,7 +258,7 @@ $ openssl pkey -in private.pem -out config/jwt/public.pem -pubout
 // UserController
 module.exports = {
     login: (req, res) => {
-        sails.hooks.baseApiHook.passport.authenticate('local', sails.hooks.baseApiHook.passport.handleLogin(req, res))(req, res)
+        sails.hooks.apiUtils.passport.authenticate('local', sails.hooks.apiUtils.passport.handleLogin(req, res))(req, res)
     }
 }
 ```
@@ -450,7 +450,7 @@ Just call it from your action:
 
 module.exports = {
   find: (req, res) => {
-    sails.hooks.baseApiHook.customBlueprint.find(req, res)
+    sails.hooks.apiUtils.customBlueprint.find(req, res)
   }
 }
 
@@ -459,7 +459,7 @@ module.exports = {
 Also you can set wich response should the method use, to customize this set this variable inside your hook config.
 
 ```javascript
-module.exports.apiUtilsHook = {
+module.exports.apiUtils = {
     blueprints: {
         // UPDATE: This variable is related to DEFAULT_LIMIT of the blueprints options
         // https://github.com/balderdashy/sails/blob/master/lib/hooks/blueprints/parse-blueprint-options.js

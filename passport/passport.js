@@ -26,7 +26,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 // This will be injected to the passport local strategy constructor
 const loginFunction = (username, password, cb) => {
   // Search for user using the userModelName parameter inside hook config
-  const UserModel = sails.models[sails.config.apiUtilsHook.passport.userModelName]
+  const UserModel = sails.models[sails.config.apiUtils.passport.userModelName]
   UserModel.findOne({ username }).exec(async function (error, user) {
     if (error) { // If theres an error in the query
       return cb(error)
@@ -83,12 +83,12 @@ const handleLogin = (req, res) => (error, user) => {
         username: user.username
       },
       {
-        key: sails.config.apiUtilsHook.passport.jwt.privateKey,
-        passphrase: sails.config.apiUtilsHook.passport.jwt.passphrase
+        key: sails.config.apiUtils.passport.jwt.privateKey,
+        passphrase: sails.config.apiUtils.passport.jwt.passphrase
       },
       {
         algorithm: 'RS256',
-        expiresIn: sails.config.apiUtilsHook.passport.jwt.expiresIn
+        expiresIn: sails.config.apiUtils.passport.jwt.expiresIn
       }
     )
     res.successResponse({
@@ -109,13 +109,13 @@ passport.handleLogin = handleLogin
 const configJwtStrategy = function (sails, passport) {
   const optsJwt = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // By default, extract the token from Authorization header, as a Bearer token
-    secretOrKey: sails.config.apiUtilsHook.passport.jwt.publicKey,
+    secretOrKey: sails.config.apiUtils.passport.jwt.publicKey,
     algorithms: ['RS256']
   }
   // Check function to search for user before passport exctracts and validate the token
   const checkFunction = (jwtPayload, cb) => {
     // Search for user using the userModelName parameter inside hook config
-    const UserModel = sails.models[sails.config.apiUtilsHook.passport.userModelName]
+    const UserModel = sails.models[sails.config.apiUtils.passport.userModelName]
     UserModel.findOne({ id: jwtPayload.sub }).exec((error, user) => {
       if (error) { // If there is an error in the query
         return cb(error)
@@ -134,7 +134,7 @@ const configJwtStrategy = function (sails, passport) {
 //  ││││├─┘│ │├┬┘ │ ├─┤│││ │   ││││├┤ │ │├┬┘│││├─┤ │ ││ ││││
 //  ┴┴ ┴┴  └─┘┴└─ ┴ ┴ ┴┘└┘ ┴   ┴┘└┘└  └─┘┴└─┴ ┴┴ ┴ ┴ ┴└─┘┘└┘
 // This configJwtStrategy lives here to be executed from the hook initilization
-// cause from here you dont have accesss the the default hook variables (located at sails.apiUtilsHook)
+// cause from here you dont have accesss the the default hook variables (located at sails.apiUtils)
 passport.configJwtStrategy = configJwtStrategy
 
 module.exports = passport
