@@ -1,0 +1,38 @@
+{
+    "name": "sails-hook-api-utils",
+    "version": "0.0.0",
+    "description": "A set of utilities for backend restful sails applications: policies, services, authentication, count in blueprint methods, standard responses, etc",
+    "main": "index.js",
+    "author": {
+        "name": "Juan Agustín Martínez",
+        "email": "@mrtnzagustin"
+    },
+    "sails": {
+        "isHook": true,
+        "hookName": "apiUtils"
+    },
+    "keywords": [
+        "sailsjs",
+        "sails.js",
+        "REST",
+        "API",
+        "utils",
+        "passport",
+        "hapi/joi"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/mrtnzagustin/sails-hook-api-utils.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@sailshq/lodash": "^3.10.4",
+        "jsonwebtoken": "^8.5.1",
+        "passport": "^0.4.1",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0"
+    },
+    "devDependencies": {
+        "sails": "^1.2.4"
+    }
+}
