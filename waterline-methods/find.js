@@ -62,7 +62,7 @@ module.exports = function find (req, res) {
         const pagination = {}
         // If there's not limit indication in query, set default blueprint limit
         if (queryOptions.criteria.limit === undefined) {
-          pagination.perPage = sails.config.apiUtilsHook.blueprints.defaultLimit
+          pagination.perPage = sails.config.apiUtils.blueprints.defaultLimit
         } else { // If there's a limit indication, uses it at perPage param
           pagination.perPage = queryOptions.criteria.limit
         }
@@ -77,7 +77,7 @@ module.exports = function find (req, res) {
           )
         }
         // Return your custom response, you also can use res.json with custom format
-        return res[sails.config.apiUtilsHook.blueprints.customMethodsResponses.find]({
+        return res[sails.config.apiUtils.blueprints.customMethodsResponses.find]({
           results: matchingRecords,
           pagination
         })
