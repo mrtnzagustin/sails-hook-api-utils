@@ -1,5 +1,5 @@
 # sails-hook-api-utils
-A Sails.js hook with some useful utilites for design a restful api backend.
+A Sails.js hook with some useful utilities for design a restful api backend.
 
 ## Features
 -  Standard json responses with a basic structure
