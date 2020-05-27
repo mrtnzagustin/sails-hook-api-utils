@@ -36,7 +36,7 @@ module.exports = function errorResponse(params) {
     sails.log.error(__("error:noExtraData"))
     return res.status(statusCodeToSet).json({
       success: false,
-      message: __('error.calledWithAnError')
+      message: __('error.calledWithAnError'),
       data: {}
     })
   }

@@ -45,7 +45,7 @@ module.exports = function successResponse(params) {
   // If no message is sent, send error due to incorrect use of the response
   if (params.message === undefined) {
     sails.log.error(__('info.successNoData'))
-    return res.serverError(new Error(__('info.successNoData'))
+    return res.serverError(new Error(__('info.successNoData')))
   }
 
   // Si no se envia data extra, se envia solo con mensaje
