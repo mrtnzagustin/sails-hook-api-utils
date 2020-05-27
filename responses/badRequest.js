@@ -19,25 +19,25 @@
 //  ┌┐ ┌─┐┌┬┐  ┬─┐┌─┐┌─┐ ┬ ┬┌─┐┌─┐┌┬┐
 //  ├┴┐├─┤ ││  ├┬┘├┤ │─┼┐│ │├┤ └─┐ │
 //  └─┘┴ ┴─┴┘  ┴└─└─┘└─┘└└─┘└─┘└─┘ ┴
-// TODO: Translate comments
-module.exports = function badRequest (optionalData) {
+module.exports = function badRequest(optionalData) {
   // Get access to `req` and `res`
   var req = this.req
   var res = this.res
 
   // Status por defecto
   const statusCodeToSet = 400
-  const defaultMessage = 'Solicitud inválida, revisar datos enviados'
+  const defaultMessage = __('info.defaultMessage')
 
   // Si no se dieron params, solo manda un mensaje de solicitud invalida
   if (optionalData === undefined) {
-    sails.log.info('Ran custom response: res.badRequest()')
+    sails.log.info(__('info.ranCustomResponse') + ': res.badRequest()')
+
     return res.errorResponse({
       status: statusCodeToSet,
       message: defaultMessage
     })
   } else if (_.isError(optionalData)) { // Si los datos adicionales son de la clase "error"
-    sails.log.error('Custom response `res.badRequest()` called with an Error:', optionalData)
+    sails.log.error(__('info.ranCustomResponse') + ' `res.badRequest()` ' + __('error.calledWithAnError'), optionalData)
 
     // Si el error (dato adicional) no se puede parsear a json
     if (!_.isFunction(optionalData.toJSON)) {

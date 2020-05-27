@@ -21,8 +21,7 @@
 //  ┌─┐┌─┐┬  ┬┌─┐┌─┐┌─┐┬┌─┐┌┐┌
 //  ├─┤├─┘│  ││  ├─┤│  ││ ││││
 //  ┴ ┴┴  ┴─┘┴└─┘┴ ┴└─┘┴└─┘┘└┘
-// TODO: Translate comments
-module.exports = function errorResponse (params) {
+module.exports = function errorResponse(params) {
   // Get access to `req` and `res`
   const req = this.req
   const res = this.res
@@ -34,10 +33,10 @@ module.exports = function errorResponse (params) {
   }
   // Si no se enviaron params o no se mando mensaje enviar un interal error tradicional
   if (!params || (params && params.message === undefined)) {
-    sails.log.error('Error desde una errorResponse sin datos adicionales')
+    sails.log.error(__("error:noExtraData"))
     return res.status(statusCodeToSet).json({
       success: false,
-      message: 'Error desde el servidor',
+      message: __('error.calledWithAnError')
       data: {}
     })
   }
