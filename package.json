@@ -1,6 +1,6 @@
 {
     "name": "sails-hook-api-utils",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "A set of utilities for backend restful sails applications: policies, services, authentication, count in blueprint methods, standard responses, etc",
     "main": "index.js",
     "author": {

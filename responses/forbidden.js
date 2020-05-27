@@ -18,8 +18,7 @@
 //  ┌─┐┌─┐┬─┐┌┐ ┬┌┬┐┌┬┐┌─┐┌┐┌
 //  ├┤ │ │├┬┘├┴┐│ ││ ││├┤ │││
 //  └  └─┘┴└─└─┘┴─┴┘─┴┘└─┘┘└┘
-// TODO: Translate comments
-module.exports = function forbidden (optionalData) {
+module.exports = function forbidden(optionalData) {
   // Get access to `req` and `res`
   var req = this.req
   var res = this.res
@@ -28,17 +27,17 @@ module.exports = function forbidden (optionalData) {
   const statusCodeToSet = 403
 
   // Defines default message
-  const message = 'Acceso prohibido'
+  const message = __("error:accessDenied")
 
   // Si no se envian datos, se muestra un prohibido tradicional
   if (optionalData === undefined) {
-    sails.log.error('Ran custom response: res.forbidden()')
+    sails.log.error(__('info.ranCustomResponse') + 'res.forbidden()')
     return res.errorResponse({
       status: statusCodeToSet,
       message
     })
   } else if (_.isError(optionalData)) { // Si el dato adicional es de tipo error
-    sails.log.error('Custom response `res.forbidden()` called with an Error:', optionalData)
+    sails.log.error(__('info.ranCustomResponse') + ' `res.forbidden()` ' + __('error.calledWithAnError'), optionalData)
 
     // Si el error se puede parsear a json y no estamos en produccion
     if (!_.isFunction(optionalData.toJSON) && process.env.NODE_ENV !== 'production') {

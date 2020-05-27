@@ -19,8 +19,7 @@
 //  ┌┐┌┌─┐┌┬┐  ┌─┐┌─┐┬ ┬┌┐┌┌┬┐
 //  ││││ │ │   ├┤ │ ││ ││││ ││
 //  ┘└┘└─┘ ┴   └  └─┘└─┘┘└┘─┴┘
-// TODO: Translate comments
-module.exports = function notFound (optionalData) {
+module.exports = function notFound(optionalData) {
   // Get access to `req` and `res`
   const req = this.req
   const res = this.res
@@ -29,11 +28,11 @@ module.exports = function notFound (optionalData) {
   const statusCodeToSet = 404
 
   // Defines default message
-  const message = 'Recurso no encontrado'
+  const message = __('error.notFound')
 
   // Si no hay datos adicionales, envia un error 404 con el mensaje determinado
   if (optionalData === undefined) {
-    sails.log.error('Ran custom response: res.notFound()')
+    sails.log.error(__('info.ranCustomResponse') + 'res.notFound()')
     return res.errorResponse({
       status: statusCodeToSet,
       message
@@ -41,7 +40,7 @@ module.exports = function notFound (optionalData) {
   }
   // Si los datos adicionales son de la clase error
   else if (_.isError(optionalData)) {
-    sails.log.error('Custom response `res.notFound()` called with an Error:', optionalData)
+    sails.log.error(__('info.ranCustomResponse') + 'res.notFound()' + __('error.calledWithAnError'), optionalData)
 
     // Si los datos adicionales se pueden parsear a json y no estamos en produccion
     if (!_.isFunction(optionalData.toJSON) && process.env.NODE_ENV !== 'production') {
