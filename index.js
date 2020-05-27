@@ -124,10 +124,13 @@ module.exports = function apiUtils(sails) {
         //  ┌─┐┌┐┌┌─┐┌┬┐┬ ┬┌─┐┬─┐  ┬ ┬┌─┐┌─┐┬┌─  ┌┬┐┌─┐┌─┐┌─┐┌┐┌┌┬┐┌─┐┌┐┌┌─┐┬┌─┐┌─┐
         //  ├─┤││││ │ │ ├─┤├┤ ├┬┘  ├─┤│ ││ │├┴┐   ││├┤ ├─┘├┤ │││ ││├┤ ││││  │├┤ └─┐
         //  ┴ ┴┘└┘└─┘ ┴ ┴ ┴└─┘┴└─  ┴ ┴└─┘└─┘┴ ┴  ─┴┘└─┘┴  └─┘┘└┘─┴┘└─┘┘└┘└─┘┴└─┘└─┘
+        // if we already have the 'loaded' event, why are we checking in the hooks?
+        /*
         // INFO: This hook relies on blueprints, orm and organics hooks
         if (!sails.config.hooks.blueprints) {
           return cb('Cannot load api utils hook without `blueprints` hook enabled!');
         }
+        // ORM is core as of 1
         if (!sails.config.hooks.orm) {
           return cb('Cannot load api utils hook without `orm` hook enabled!');
         }
@@ -135,6 +138,7 @@ module.exports = function apiUtils(sails) {
         if (!sails.config.hooks.organics) {
           return cb('Cannot load api utils hook without `organics` hook enabled!');
         }
+        */
         sails.log.silly('BASE API HOOK: Initializing passport jwt strategy')
 
         //   ┬┬ ┬┌┬┐  ┌─┐┌┬┐┬─┐┌─┐┌┬┐┌─┐┌─┐┬ ┬  
